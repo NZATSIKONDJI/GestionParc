@@ -1,15 +1,16 @@
 package karlnoellecamille;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 class Inventaire {
-    private static Inventaire instance;
-    private Map<String, Appareil> appareils; 
+    private static Inventaire instance; 
+    private List<Appareil> appareils;
 
     private Inventaire() {
-        appareils = new HashMap<>();
+        appareils = new ArrayList<>();
     }
 
+    
     public static Inventaire getInstance() {
         if (instance == null) {
             instance = new Inventaire();
@@ -17,26 +18,31 @@ class Inventaire {
         return instance;
     }
 
+   
     public void ajouterAppareil(Appareil appareil) {
-        appareils.put(appareil.identifiant, appareil);
+        appareils.add(appareil);
         System.out.println(appareil.nom + " ajouté à l'inventaire.");
     }
 
+    
     public void supprimerAppareil(String identifiant) {
-        if (appareils.containsKey(identifiant)) {
-            System.out.println(appareils.get(identifiant).nom + " supprimé de l'inventaire.");
-            appareils.remove(identifiant);
-        } else {
-            System.out.println("Aucun appareil trouvé avec l'ID : " + identifiant);
+        for (Appareil appareil : appareils) {
+            if (appareil.identifiant.equals(identifiant)) {
+                appareils.remove(appareil);
+                System.out.println(appareil.nom + " supprimé de l'inventaire.");
+                return; 
+            }
         }
+        System.out.println("Aucun appareil trouvé avec l'ID : " + identifiant);
     }
 
+ 
     public void afficherInventaire() {
         if (appareils.isEmpty()) {
             System.out.println("L'inventaire est vide.");
         } else {
             System.out.println("Inventaire des appareils :");
-            for (Appareil appareil : appareils.values()) {
+            for (Appareil appareil : appareils) {
                 System.out.println(appareil.getDescription());
             }
         }
